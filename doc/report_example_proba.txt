@@ -1,0 +1,36 @@
+Analyse root directory: /home/rcoscali/topdir
+
+** 3 files analysed for [counting only] on 26.10.2024 at 11:27:64
+
+   -name-                   -size-      -characters-         -words-
+ - test1.txt              3027 bytes      a,b,z             test,les,suivant
+ - another.txt           10287 bytes      t,q,r,f           titre,livre,texte
+ - the_last_file.asc    213354 bytes      x,y,z,'/'          politique,anti
+
+Analysed file: test1.txt ======================================================
+
+Number of character      'a':     107 
+Number of character      'b':      36
+Number of character      'z':       2
+Number of word        'test':       4
+Number of word         'les':      12
+Number of word     'suivant':       1
+
+Analysed file: another.txt ====================================================
+
+Number of character      't':      92
+Number of character      'q':      17
+Number of character      'r':      35
+Number of character      'f':      58
+Number of word       'titre':       3
+Number of word       'livre':       7
+Number of word       'texte':       2
+
+Analysed file: the_last_file.asc ==============================================
+
+Number of character      'x':    1094
+Number of character      'y':     973
+Number of character      'z':     659
+Number of character      '/':     312
+Number of word   'politique':       7
+Number of word        'anti':       4
