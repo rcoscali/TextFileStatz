@@ -5,7 +5,7 @@ Analyse root directory: /home/rcoscali/topdir
    -name-                   -size-      -characters-         -words-
  - test1.txt              3027 bytes      a,b,z             test,les,suivant
  - another.txt           10287 bytes      t,q,r,f           titre,livre,texte
- - the_last_file.asc    213354 bytes      x,y,z,'/'          politique,anti
+ - the_last_file.asc    213354 bytes      x,y,z,'/'         politique,anti
  => [saved to exfiles1.rprt]
 
 Analysed file: test1.txt ======================================================
