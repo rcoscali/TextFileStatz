@@ -1,6 +1,6 @@
 Analyse root directory: /home/rcoscali/topdir
 
-** 3 files analysed for [counting only] on 26.10.2024 at 11:27:64
+** 3 files analysed for [counting probabilities] on 26.10.2024 at 11:27:64
 
    -name-                   -size-      -characters-         -words-
  - test1.txt              3027 bytes      a,b,z             test,les,suivant
@@ -9,28 +9,34 @@ Analyse root directory: /home/rcoscali/topdir
 
 Analysed file: test1.txt ======================================================
 
-Number of character      'a':     107 
-Number of character      'b':      36
-Number of character      'z':       2
-Number of word        'test':       4
-Number of word         'les':      12
-Number of word     'suivant':       1
+Total number of characters:      2972
+Number of character      'a':     107        p=0.03254 
+Number of character      'b':      36        p=0.01976
+Number of character      'z':       2        p=0.00023
+Total number of words:            372
+Number of word        'test':       4        p=0.02537
+Number of word         'les':      12        p=0.70198
+Number of word     'suivant':       1        p=0.00034
 
 Analysed file: another.txt ====================================================
 
-Number of character      't':      92
-Number of character      'q':      17
-Number of character      'r':      35
-Number of character      'f':      58
-Number of word       'titre':       3
-Number of word       'livre':       7
-Number of word       'texte':       2
+Total number of characters:     10137
+Number of character      't':      92        p=0.03254 
+Number of character      'q':      17        p=0.01976
+Number of character      'r':      35        p=0.00023
+Number of character      'f':      58        p=0.00023
+Total number of words:           2354
+Number of word       'titre':       3        p=0.02537
+Number of word       'livre':       7        p=0.70198
+Number of word       'texte':       2        p=0.00034
 
 Analysed file: the_last_file.asc ==============================================
 
-Number of character      'x':    1094
-Number of character      'y':     973
-Number of character      'z':     659
-Number of character      '/':     312
-Number of word   'politique':       7
-Number of word        'anti':       4
+Total number of characters:    210693
+Number of character      'x':    1094        p=0.00325 
+Number of character      'y':     973        p=0.00206
+Number of character      'z':     659        p=0.00137
+Number of character      '/':     312        p=0.00096
+Total number of words:          62354
+Number of word   'politique':       7        p=0.00017
+Number of word        'anti':       4        p=0.00005
