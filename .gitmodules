@@ -1,0 +1,6 @@
+[submodule "libs/"]
+	path = libs/
+	url = git@github.com:rcoscali/libfcm.git
+[submodule "libs/libstnrgen"]
+	path = libs/libstnrgen
+	url = git@github.com:rcoscali/libStNRGen.git
