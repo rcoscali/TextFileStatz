@@ -2,7 +2,7 @@
  *
  * Main command implementation
  *
- * Copyright 2024 Rémi COHEN SCALI / EFREI
+ * Copyright ©2024 Rémi COHEN SCALI / EFREI
  *
  * MIT License
  * -----------
@@ -33,6 +33,7 @@
 #define DONT_USE_FLAG
 
 #define SHORT_OPTION_STRING ":hv"
+#define EXIT_FAILURE 1
 
 #ifdef DONT_USE_FLAG
 /* Flag ptr */
@@ -63,29 +64,108 @@
 #endif
 #define FALSE (10 == 11)
 
+/**
+ * print_usage
+ *
+ * Function for displaying usage string for quick help
+ *
+ * @param cmd       the command string
+ */
 void
 print_usage(char* cmd)
 {
     fprintf(stdout, "%s: usage: textfilestatz [-h|--help],[-v|--verbose]\n", cmd);
 }
 
-int main(int argc, char *argv[]) {
+/**
+ * print_help
+ *
+ * Function for displaying basic help file
+ *
+ * @param cmd       the command string
+ */
+void
+print_help(char* blank_cmd)
+{
+    fprintf(stderr, "%s                                                                       \n", blank_cmd);
+    fprintf(stderr, "%s  Short description:                                                   \n", blank_cmd);
+    fprintf(stderr, "%s     This command allows to compute statistics on text files in term of\n", blank_cmd);
+    fprintf(stderr, "%s     characters and words (optionally including their probabilities).  \n", blank_cmd);
+    fprintf(stderr, "%s     In order to use it you can use several options.                   \n", blank_cmd);
+    fprintf(stderr, "%s                                                                       \n", blank_cmd);
+    fprintf(stderr, "%s  Options:                                                             \n", blank_cmd);
+    fprintf(stderr, "%s     --verbose|-v          increase command verbosity.                 \n", blank_cmd);
+    fprintf(stderr, "%s     --help|-h             display this short help.                    \n", blank_cmd);
+    fprintf(stderr, "%s     --input|-i <textfile> provide a text file to process. By default  \n", blank_cmd);
+    fprintf(stderr, "%s                           if no file is provided, the standard input  \n", blank_cmd);
+    fprintf(stderr, "%s                           is used.                                    \n", blank_cmd);
+    fprintf(stderr, "%s     --count|-c <char>     include this char to process.               \n", blank_cmd);
+    fprintf(stderr, "%s     --word|-w <word>      include this word to process.               \n", blank_cmd);
+    fprintf(stderr, "%s     --proba|-p            also compute probabilities of occurence for \n", blank_cmd);
+    fprintf(stderr, "%s                           each cjaracter and word.                    \n", blank_cmd);
+    fprintf(stderr, "%s     --report|-r <file>    generate report in the provided file. By    \n", blank_cmd);
+    fprintf(stderr, "%s                           default if no report file is provided, the  \n", blank_cmd);
+    fprintf(stderr, "%s                           standard output is used.                    \n", blank_cmd);
+    fprintf(stderr, "%s                                                                       \n", blank_cmd);
+    fprintf(stderr, "Copyright ⓒ2024 Rémi COHEN SCALI / EFREI                               %s\n", blank_cmd);
+}
+
+/**
+ * main
+ *
+ * Main command entry point function
+ *
+ * @param argc      number of option arguments on command line
+ * @param argv      array of option arguments on command line
+ *
+ * @return 0 if success, none 0 otherwise
+ */
+int
+main(int argc, char *argv[])
+{
+    /*
+     * Flags and variable for handling command line options
+     */
     char c = -1;
     int verbose_flag = FALSE;
     int help_flag = FALSE;
 
-    char *cmd = strrchr(argv[0], '\\') ? strdup(strrchr(argv[0], '\\') + 1) : argv[0];
+    /*
+     * Command to display for info/error
+     */
+    char* cmd = strrchr(argv[0], '\\') ? strdup(strrchr(argv[0], '\\') + 1) : argv[0];
+    char* tmp;
+    if ((tmp = strrchr(cmd, '.')) != NULL)
+        *tmp = 0;
 
+    /*
+     * Blanked command used for indenting outputs
+     */
+    char* blank_cmd = strdup(cmd);
+    for (tmp = blank_cmd; tmp < blank_cmd + strlen(cmd); tmp++)
+        *tmp = ' ';
+
+    /*
+     * Long options defined for getopt_long processing
+     */
     struct option long_options[] = {
+            /* Verbose (-v|--verbose) */
             {"verbose",  no_argument,  VERBOSE_FLAG, VERBOSE_VALUE},
+            /* Help (-h|--help) */
             {"help",     no_argument,  HELP_FLAG, HELP_VALUE},
+            /* Null value for terminating table */
             {0, 0, 0, 0}
     };
 
+    /*
+     * Main loop for options processing
+     */
     do
     {
 #ifdef DONT_USE_FLAG
+        /* Call getopt_long for arguments parsing */
         if ((c = getopt_long(argc, argv, SHORT_OPTION_STRING, long_options, NULL)) != -1)
+            /* Then according to option found, do whatever is needed */
             switch(c) {
                 case 'v':
                     verbose_flag = TRUE;
@@ -97,25 +177,48 @@ int main(int argc, char *argv[]) {
                     printf("%s: error: option '%c' doesn't exists !\n", optopt);
                     break;
             }
-#else
+#else /* !DONT_USE_FLAG */
         c = getopt_long(argc, argv, SHORT_OPTION_STRING, long_options, NULL);
         if (c == '?')
-            printf("Argument non-option : '%c' '%c'\n", optopt, c);
-#endif
+            printf("%s: error: option '%c' doesn't exist\n", optopt);
+#endif /* DONT_USE_FLAG */
     }
-    while (c != -1);
+    while (c != -1); /* Until getopt_long do not find any other option argument */
 
+    /* If help requested or no option provided */
     if (help_flag || (!help_flag && !verbose_flag))
+    {
+        /* Display an error message */
+        if (!help_flag)
+            fprintf(stderr, "%s: error: no options provided !\n", cmd);
+        /* Print the usage short message */
         print_usage(cmd);
-    if (verbose_flag)
-        fprintf(stderr, "Mode verbeux activé\n");
+        /* Then display the help */
+        if (help_flag)
+            print_help(blank_cmd);
+        /* Exit: if help was requested, success exit */
+        exit(help_flag ? EXIT_SUCCESS : EXIT_FAILURE);
+    }
 
+    /* If verbose was requsted, notify user */
+    if (verbose_flag)
+        fprintf(stderr, "%s: info: verbose mode requested\n", cmd);
+
+    /* If an error was detected by getopt_long */
     if (c == '?')
-        fprintf(stderr, "Option inconnue : %c\n", optopt);
+    {
+        /* Display an error message and exit failure */
+        fprintf(stderr, "%s: error: unknown option '%c'\n", cmd, optopt);
+        exit(EXIT_FAILURE);
+    }
 
     /* Traitement des arguments restants (si nécessaire) */
-    for (int index = optind; index < argc; index++) {
-        fprintf(stdout, "Argument non-option : %s\n", argv[index]);
+    for (int index = optind; index < argc; index++)
+    {
+        if (verbose_flag)
+            fprintf(stdout, "%s: info: tail argument : '%s'\n", cmd, argv[index]);
+        else
+            fprintf(stdout, "tail argument : '%s'\n", argv[index]);
     }
 
     return 0;
