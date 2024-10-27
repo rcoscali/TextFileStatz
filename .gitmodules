@@ -4,3 +4,10 @@
 [submodule "libStNRGen"]
 	path = libs/libStNRGen
 	url = git@github.com:rcoscali/libStNRGen.git
+[submodule "libs/libfcm"]
+	url = https://github.com/rcoscali/libfcm.git
+[submodule "libs/libStNRGen"]
+	url = https://github.com/rcoscali/libStNRGen.git
+[submodule "libs/CUnit-2.1-3"]
+	path = libs/CUnit-2.1-3
+	url = git@github.com:rcoscali/CUnit-2.1-3.git
