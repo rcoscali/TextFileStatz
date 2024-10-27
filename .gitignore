@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# CMake build directory for Debug builds
+cmake-build-debug/
+
+# CMake build directory for Release builds
+cmake-build-release/
